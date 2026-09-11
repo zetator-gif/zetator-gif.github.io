@@ -1,5 +1,3 @@
-#_
-
 int main() {
 
 int count_primes(int n) {
