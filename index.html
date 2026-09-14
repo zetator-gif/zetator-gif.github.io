@@ -35,7 +35,9 @@
 
       async function fetchPrice(source) {
         try {
-          const response = await fetch(source.url);
+          const response = await fetch(`${source.url}&_=${Date.now()}`, {
+            cache: 'no-store',
+          });
           const text = await response.text();
           const data = JSON.parse(text);
           const price = Number(data?.chart?.result?.[0]?.meta?.regularMarketPrice);
@@ -58,6 +60,9 @@
 
       loadQuotes();
       setInterval(loadQuotes, 30000);
+      window.addEventListener('pageshow', () => {
+        loadQuotes();
+      });
     </script>
   </body>
 </html>
