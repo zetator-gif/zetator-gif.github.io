@@ -26,36 +26,20 @@
     <script>
       const quotesEl = document.getElementById('quotes');
 
-      const sources = [
-        { label: 'XAUUSD', url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/GC=F') },
-        { label: 'BTCUSD', url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD') },
-        { label: 'XBRUSD', url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/BZ=F') },
-        { label: 'US30Y', url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/^TYX') },
-      ];
-
-      async function fetchPrice(source) {
-        try {
-          const response = await fetch(`${source.url}&_=${Date.now()}`, {
-            cache: 'no-store',
-          });
-          const text = await response.text();
-          const data = JSON.parse(text);
-          const price = Number(data?.chart?.result?.[0]?.meta?.regularMarketPrice);
-          return Number.isFinite(price) ? price : null;
-        } catch (error) {
-          return null;
-        }
-      }
-
       async function loadQuotes() {
-        const results = await Promise.all(
-          sources.map(async (source) => {
-            const value = await fetchPrice(source);
-            return `${source.label} = ${value ?? 'N/A'}`;
-          })
-        );
+        try {
+          const response = await fetch('/api/quotes', { cache: 'no-store' });
+          const data = await response.json();
 
-        quotesEl.textContent = results.join('\n');
+          quotesEl.textContent = [
+            `XAUUSD = ${data.XAUUSD ?? 'N/A'}`,
+            `BTCUSD = ${data.BTCUSD ?? 'N/A'}`,
+            `XBRUSD = ${data.XBRUSD ?? 'N/A'}`,
+            `US30Y = ${data.US30Y ?? 'N/A'}`,
+          ].join('\n');
+        } catch (error) {
+          quotesEl.textContent = 'Error loading quotes';
+        }
       }
 
       loadQuotes();
@@ -66,3 +50,4 @@
     </script>
   </body>
 </html>
+I’ve switched the page to use a local API endpoint so the browser no longer depends on the blocked extern
