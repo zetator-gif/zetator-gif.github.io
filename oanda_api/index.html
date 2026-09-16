@@ -7,17 +7,25 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css">
   <style>
     body { margin: 0; background: #111; color: #eee; font: 12px Hack, monospace; }
-    main { width: min(100% - 12px, 500px); margin: 8px 0; }
+    main { position: relative; z-index: 1; width: min(100% - 12px, 500px); margin: 8px 0; }
     header, section { display: grid; grid-template-columns: 78px 1fr 1fr 1fr; gap: 7px; padding: 6px 0; }
-    header { color: #ffd700; font-size: 10px; font-weight: 700; border-bottom: 1px solid #444; text-transform: uppercase; }
+    header { color: #ffd700; font-size: 10px; font-weight: 700; background: rgba(0, 102, 204, 0.2); border-bottom: 1px solid #444; text-transform: uppercase; }
     section { border-bottom: 1px solid #292929; }
     .right { text-align: right; }
     section strong { color: #ffd700; }
     section .quote.up { color: #00c853; }
     section .quote.down { color: #f44336; }
+    .watermark { position: fixed; z-index: 0; top: 50%; left: 50%; width: min(50vw, 360px); transform: translate(-50%, -50%); opacity: 0.12; pointer-events: none; }
   </style>
 </head>
 <body>
+  <svg class="watermark" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="88" fill="none" stroke="#ffd700" stroke-width="7" />
+    <path d="M55 118h90l-12 18H69z" fill="none" stroke="#ffd700" stroke-width="6" stroke-linejoin="round" />
+    <path d="M100 118V62M100 66l34 52H100zM96 73L72 118h24z" fill="none" stroke="#ffd700" stroke-width="5" stroke-linejoin="round" />
+    <path d="M45 143c12-10 24 10 36 0s24 10 36 0 24 10 38 0" fill="none" stroke="#ffd700" stroke-width="5" stroke-linecap="round" />
+    <path d="M50 155c12-8 24 8 36 0s24 8 36 0 24 8 34 0" fill="none" stroke="#ffd700" stroke-width="4" stroke-linecap="round" />
+  </svg>
   <main>
     <header><span>SYMBOL</span><span class="right">PRICE</span><span class="right">DAILY HIGH</span><span class="right">DAILY LOW</span></header>
     <section><strong>XAUUSD</strong><span id="XAUUSD" class="right">...</span><span id="XAUUSD-high" class="right">...</span><span id="XAUUSD-low" class="right">...</span></section>
