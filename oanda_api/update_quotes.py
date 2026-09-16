@@ -25,6 +25,7 @@ def fetch_quote(symbol):
 
     return {
         'price': meta.get('regularMarketPrice'),
+        'previousClose': meta.get('chartPreviousClose') or meta.get('previousClose'),
         'high': last(values.get('high', [])) or meta.get('regularMarketDayHigh'),
         'low': last(values.get('low', [])) or meta.get('regularMarketDayLow'),
     }

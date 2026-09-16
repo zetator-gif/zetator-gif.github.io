@@ -6,13 +6,15 @@
   <title>Live Quotes</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css">
   <style>
-    body { margin: 0; background: #111; color: #eee; font: 15px Hack, monospace; }
-    main { width: min(100% - 24px, 620px); margin: 16px auto; }
-    header, section { display: grid; grid-template-columns: 90px 1fr 1fr 1fr; gap: 10px; padding: 9px 0; }
-    header { color: #ffd700; font-size: 12px; font-weight: 700; border-bottom: 1px solid #444; text-transform: uppercase; }
+    body { margin: 0; background: #111; color: #eee; font: 12px Hack, monospace; }
+    main { width: min(100% - 12px, 500px); margin: 8px 0; }
+    header, section { display: grid; grid-template-columns: 78px 1fr 1fr 1fr; gap: 7px; padding: 6px 0; }
+    header { color: #ffd700; font-size: 10px; font-weight: 700; border-bottom: 1px solid #444; text-transform: uppercase; }
     section { border-bottom: 1px solid #292929; }
     .right { text-align: right; }
-    section .right { color: #ffd700; }
+    section strong { color: #ffd700; }
+    section .quote.up { color: #00c853; }
+    section .quote.down { color: #f44336; }
   </style>
 </head>
 <body>
@@ -26,9 +28,12 @@
   <script>
     const displayValue = value => value == null ? 'N/A' : Number(value).toFixed(2);
     const setQuote = (name, quote) => {
-      document.getElementById(name).textContent = displayValue(quote?.price);
-      document.getElementById(name + '-high').textContent = displayValue(quote?.high);
-      document.getElementById(name + '-low').textContent = displayValue(quote?.low);
+      const direction = quote?.price < quote?.previousClose ? 'down' : 'up';
+      for (const suffix of ['', '-high', '-low']) {
+        const cell = document.getElementById(name + suffix);
+        cell.textContent = displayValue(quote?.[suffix.slice(1) || 'price']);
+        cell.className = 'right quote ' + direction;
+      }
     };
     async function loadQuotes() {
       const data = await fetch('quotes.json?time=' + Date.now()).then(response => response.json());
