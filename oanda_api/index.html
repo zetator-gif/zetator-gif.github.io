@@ -1,48 +1,31 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OANDA Quotes</title>
-    <style>
-      body {
-        margin: 0;
-        background: #111;
-        color: #f5f5f5;
-        font-family: Arial, Helvetica, sans-serif;
-      }
-      pre {
-        margin: 0;
-        padding: 24px;
-        font-size: 18px;
-        line-height: 1.8;
-        white-space: pre-wrap;
-      }
-    </style>
-  </head>
-  <body>
-    <pre id="quotes"></pre>
-
-    <script>
-      const quotesEl = document.getElementById('quotes');
-
-      const quotes = {
-        XAUUSD: 0,
-        BTCUSD: 0,
-        XBRUSD: 0,
-        US30Y: 0,
-      };
-
-      function renderQuotes() {
-        quotesEl.textContent = [
-          `XAUUSD = ${quotes.XAUUSD}`,
-          `BTCUSD = ${quotes.BTCUSD}`,
-          `XBRUSD = ${quotes.XBRUSD}`,
-          `US30Y = ${quotes.US30Y}`,
-        ].join('\n');
-      }
-
-      renderQuotes();
-    </script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Quotes</title>
+  <style>
+    html, body { margin: 0; min-height: 100%; background: #111; }
+    main { max-width: 520px; margin: 24px auto; }
+    section { display: flex; align-items: center; min-height: 64px; border-bottom: 1px solid #333; }
+    label { width: 90px; color: #eee; font: 18px Consolas, monospace; }
+    .tradingview-widget-container { flex: 1; height: 64px; }
+  </style>
+</head>
+<body>
+  <main>
+    <section><label>XAUUSD</label><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+    {"symbol":"OANDA:XAUUSD","width":"100%","isTransparent":true,"colorTheme":"dark","locale":"en"}
+    </script></div></section>
+    <section><label>BTCUSD</label><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+    {"symbol":"COINBASE:BTCUSD","width":"100%","isTransparent":true,"colorTheme":"dark","locale":"en"}
+    </script></div></section>
+    <section><label>XBRUSD</label><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+    {"symbol":"TVC:UKOIL","width":"100%","isTransparent":true,"colorTheme":"dark","locale":"en"}
+    </script></div></section>
+    <section><label>US30Y</label><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+    {"symbol":"TVC:US30Y","width":"100%","isTransparent":true,"colorTheme":"dark","locale":"en"}
+    </script></div></section>
+  </main>
+</body>
 </html>
