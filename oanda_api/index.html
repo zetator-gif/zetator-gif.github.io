@@ -11,6 +11,7 @@
     header { color: #888; font-size: 12px; border-bottom: 1px solid #444; }
     section { border-bottom: 1px solid #292929; }
     .right { text-align: right; }
+    section .right { color: #f59e0b; }
   </style>
 </head>
 <body>
@@ -22,10 +23,11 @@
     <section><strong>US30Y</strong><span id="US30Y" class="right">...</span><span id="US30Y-high" class="right">...</span><span id="US30Y-low" class="right">...</span></section>
   </main>
   <script>
+    const displayValue = value => value == null ? 'N/A' : Number(value).toFixed(2);
     const setQuote = (name, quote) => {
-      document.getElementById(name).textContent = quote?.price ?? 'N/A';
-      document.getElementById(name + '-high').textContent = quote?.high ?? 'N/A';
-      document.getElementById(name + '-low').textContent = quote?.low ?? 'N/A';
+      document.getElementById(name).textContent = displayValue(quote?.price);
+      document.getElementById(name + '-high').textContent = displayValue(quote?.high);
+      document.getElementById(name + '-low').textContent = displayValue(quote?.low);
     };
     async function loadQuotes() {
       const data = await fetch('quotes.json?time=' + Date.now()).then(response => response.json());
