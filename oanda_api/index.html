@@ -6,18 +6,33 @@
   <title>Live Quotes</title>
   <style>
     body { margin: 0; background: #111; color: #eee; font: 15px Consolas, monospace; }
-    main { width: min(100% - 24px, 520px); margin: 16px auto; }
-    section { display: flex; align-items: center; min-height: 64px; border-bottom: 1px solid #333; }
-    label { width: 90px; color: #eee; font: 18px Consolas, monospace; }
-    .tradingview-widget-container { flex: 1; height: 64px; }
+    main { width: min(100% - 24px, 620px); margin: 16px auto; }
+    header, section { display: grid; grid-template-columns: 90px 1fr 1fr 1fr; gap: 10px; padding: 9px 0; }
+    header { color: #888; font-size: 12px; border-bottom: 1px solid #444; }
+    section { border-bottom: 1px solid #292929; }
+    .right { text-align: right; }
   </style>
 </head>
 <body>
   <main>
-    <section><label>XAUUSD</label><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>{"symbol":"OANDA:XAUUSD","width":"100%","isTransparent":true,"colorTheme":"dark","locale":"en"}</script></div></section>
-    <section><label>BTCUSD</label><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>{"symbol":"COINBASE:BTCUSD","width":"100%","isTransparent":true,"colorTheme":"dark","locale":"en"}</script></div></section>
-    <section><label>XBRUSD</label><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>{"symbol":"TVC:UKOIL","width":"100%","isTransparent":true,"colorTheme":"dark","locale":"en"}</script></div></section>
-    <section><label>US30Y</label><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>{"symbol":"TVC:US30Y","width":"100%","isTransparent":true,"colorTheme":"dark","locale":"en"}</script></div></section>
+    <header><span>SYMBOL</span><span class="right">PRICE</span><span class="right">DAILY HIGH</span><span class="right">DAILY LOW</span></header>
+    <section><strong>XAUUSD</strong><span id="XAUUSD" class="right">...</span><span id="XAUUSD-high" class="right">...</span><span id="XAUUSD-low" class="right">...</span></section>
+    <section><strong>BTCUSD</strong><span id="BTCUSD" class="right">...</span><span id="BTCUSD-high" class="right">...</span><span id="BTCUSD-low" class="right">...</span></section>
+    <section><strong>XBRUSD</strong><span id="XBRUSD" class="right">...</span><span id="XBRUSD-high" class="right">...</span><span id="XBRUSD-low" class="right">...</span></section>
+    <section><strong>US30Y</strong><span id="US30Y" class="right">...</span><span id="US30Y-high" class="right">...</span><span id="US30Y-low" class="right">...</span></section>
   </main>
+  <script>
+    const setQuote = (name, quote) => {
+      document.getElementById(name).textContent = quote?.price ?? 'N/A';
+      document.getElementById(name + '-high').textContent = quote?.high ?? 'N/A';
+      document.getElementById(name + '-low').textContent = quote?.low ?? 'N/A';
+    };
+    async function loadQuotes() {
+      const data = await fetch('quotes.json?time=' + Date.now()).then(response => response.json());
+      for (const [name, quote] of Object.entries(data)) setQuote(name, quote);
+    }
+    loadQuotes();
+    setInterval(loadQuotes, 60000);
+  </script>
 </body>
 </html>
