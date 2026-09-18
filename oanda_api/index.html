@@ -15,6 +15,7 @@
     section strong { color: #ffd700; }
     section .quote.up { color: #00c853; }
     section .quote.down { color: #f44336; }
+    .stamp { margin-top: 8px; color: #ffd700; font-size: 9px; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.08em; }
     .watermark { position: fixed; z-index: 0; top: 50%; left: 50%; width: min(50vw, 360px); transform: translate(-50%, -50%); opacity: 0.12; pointer-events: none; }
   </style>
 </head>
@@ -32,9 +33,14 @@
     <section><strong>BTCUSD</strong><span id="BTCUSD" class="right">...</span><span id="BTCUSD-high" class="right">...</span><span id="BTCUSD-low" class="right">...</span></section>
     <section><strong>XBRUSD</strong><span id="XBRUSD" class="right">...</span><span id="XBRUSD-high" class="right">...</span><span id="XBRUSD-low" class="right">...</span></section>
     <section><strong>US30Y</strong><span id="US30Y" class="right">...</span><span id="US30Y-high" class="right">...</span><span id="US30Y-low" class="right">...</span></section>
+    <div id="last-updated" class="stamp">LAST FETCH: --:--:--</div>
   </main>
   <script>
     const displayValue = value => value == null ? 'N/A' : Number(value).toFixed(2);
+    const formatStamp = (ts) => {
+      const date = new Date(ts);
+      return isNaN(date) ? 'N/A' : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    };
     const setQuote = (name, quote) => {
       const direction = quote?.price < quote?.previousClose ? 'down' : 'up';
       for (const suffix of ['', '-high', '-low']) {
@@ -43,9 +49,14 @@
         cell.className = 'right quote ' + direction;
       }
     };
+    const setStamp = (timestamp) => {
+      const stamp = document.getElementById('last-updated');
+      stamp.textContent = 'LAST FETCH: ' + formatStamp(timestamp || Date.now());
+    };
     async function loadQuotes() {
       const data = await fetch('quotes.json?time=' + Date.now()).then(response => response.json());
       for (const [name, quote] of Object.entries(data)) setQuote(name, quote);
+      setStamp(Date.now());
     }
     loadQuotes();
     setInterval(loadQuotes, 60000);
