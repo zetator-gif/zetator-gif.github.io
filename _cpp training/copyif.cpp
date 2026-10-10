@@ -39,7 +39,10 @@ int main() {
 
     Env Env1;
 
-    Env1.set_dimensions(1, 1, 1);
+    Env1.set_dimensions(1, 2, 3);
+
+
+std::cout << Env1.mdspan();
 
 }
     
