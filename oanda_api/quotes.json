@@ -1,24 +1,24 @@
 {
   "XAUUSD": {
-    "price": 3885.82,
+    "price": 3884.685,
     "previousClose": 3877.59,
     "high": 3923.09,
     "low": 3867.67
   },
   "BTCUSD": {
-    "price": 68984.41,
+    "price": 68365.12,
     "previousClose": 75223.15,
     "high": 71386.0,
     "low": 68052.4375
   },
   "XBRUSD": {
-    "price": 95.8,
+    "price": 96.08,
     "previousClose": 92.57,
     "high": 97.12000274658203,
     "low": 95.06999969482422
   },
   "US30Y": {
-    "price": 5.471,
+    "price": 5.481,
     "previousClose": 5.256,
     "high": 5.501999855041504,
     "low": 5.453000068664551
